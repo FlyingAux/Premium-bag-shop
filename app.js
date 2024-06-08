@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const userModel = require('./models/user');
+const productModel = require('./models/product');
 
 const app = express();
 
