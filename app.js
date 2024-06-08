@@ -5,6 +5,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const userModel = require('./models/user');
 const productModel = require('./models/product');
+const ownerModel = require('./models/owner');
+const ownersRouter = require('./routes/ownersRouter');
+const usersRouter = require('./routes/usersRouter');
+const productsRouter = require('./routes/productsRouter');
+
+const db = require('./config/mongoose-connection');
 
 const app = express();
 
@@ -15,8 +21,8 @@ app.use(express.static(path.join(__dirname,'public')));
 
 app.use(cookieParser());
 
-app.get('/',function(req,res,next){
-    res.render('index');
-})
+app.use('/owners', ownersRouter);
+app.use('/users', usersRouter);
+app.use('/products', productsRouter);
 
 app.listen(3000);
