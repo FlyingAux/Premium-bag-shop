@@ -9,6 +9,7 @@ const ownerModel = require('./models/owner');
 const ownersRouter = require('./routes/ownersRouter');
 const usersRouter = require('./routes/usersRouter');
 const productsRouter = require('./routes/productsRouter');
+const router = require('./routes/index');
 
 const db = require('./config/mongoose-connection');
 
@@ -24,5 +25,6 @@ app.use(cookieParser());
 app.use('/owners', ownersRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
+app.use('/', router);
 
 app.listen(3000);
