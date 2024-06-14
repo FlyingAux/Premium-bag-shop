@@ -46,7 +46,14 @@ module.exports.loginUser = async function(req,res){
                 res.send("Logged in")
                }
                else{
-                res.status(401).send('Email or password is incorrect')
+               req.flash('error','Email or password is incorrect');
+               res.redirect('/')
                }
             })
 }
+
+
+module.exports.logout = function(req,res,nex){
+    res.cookie('token','');
+    res.redirect('/');
+};

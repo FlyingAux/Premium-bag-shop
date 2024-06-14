@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const generateToken = require('../utils/generateToken');
-const {registerUser, loginUser} = require('../controllers/authController');
+const {registerUser, loginUser, logout} = require('../controllers/authController');
 
 router.get('/',function(req,res){
     res.send('welcome u');
@@ -14,7 +14,9 @@ router.get('/',function(req,res){
 
 router.post('/register', registerUser);
 
-router.post('/login', loginUser)
+router.post('/login', loginUser);
+
+router.get('/logout', logout);
 
 
 module.exports = router;
