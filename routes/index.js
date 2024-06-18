@@ -19,6 +19,7 @@ router.get('/shop',isLoggedIn,async function(req,res,next){
 
 
 router.get('/cart/:pid',async function(req,res,next){
+   try{
     let decoded = jwt.verify(req.cookies.token,process.env.JWT_KEY);
     let user = await userModel.findOne({email: decoded.email}).select("-password");
 
@@ -33,6 +34,10 @@ router.get('/cart/:pid',async function(req,res,next){
     }
     await user.save();
     res.redirect('/cart');
+   }
+   catch(err){
+    res.send('ERROR! - Only users are applicable to buy products');
+   }
 })
 
 router.get('/cart',isLoggedIn,async function(req,res,next){

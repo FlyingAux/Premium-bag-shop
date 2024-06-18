@@ -4,6 +4,7 @@ const ownerModel = require('../models/owner');
 const isAdmin = require('../middlewares/isAdmin');
 const bcrypt = require('bcrypt');
 const generateToken = require('../utils/generateToken');
+const productModel = require('../models/product');
 
 
 if(process.env.NODE_ENV === "development"){
@@ -60,5 +61,25 @@ router.get('/admin',isAdmin,function(req,res){
     let success = req.flash('success');
     res.render('createproducts', { success });
 });
+
+router.get('/allproducts',isAdmin,async function(req,res,next){
+    let product = await productModel.find();
+    res.render('admin',{product})
+})
+
+router.delete('/owners/allproducts/:delete',async function(req,res,next){
+    try{
+        let decoded = jwt.verify(req.cookies.token,process.env.JWT_KEY);
+        let user = await ownerModel.findOne({email: decoded.email}).select("-password");
+        
+        let product = await productModel.findOneAndDelete({_id: req.params.delete});
+        
+        user.products.splice(product._id,1)
+        res.send('post deleted successfullly')
+    }
+    catch(err){
+        res.send(err.message);
+    }
+})
 
 module.exports = router;
