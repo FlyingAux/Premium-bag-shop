@@ -13,7 +13,12 @@ const userSchema = mongoose.Schema({
         default: []
     },
     contact: Number,
-    picture: String
+    picture: String,
+    role: {
+        type: String,
+        enum: 'user',
+        default: 'user'
+    }
 })
 
 module.exports = mongoose.model('user',userSchema);

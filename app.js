@@ -16,6 +16,7 @@ const flash = require('connect-flash');
 
 require('dotenv').config();
 
+console.log('Environment:', process.env.NODE_ENV);
 
 const db = require('./config/mongoose-connection');
 
@@ -33,6 +34,7 @@ app.use(expressSession({
     secret: process.env.EXPRESS_SESSION_SECRET,
 }))
 app.use(flash());
+
 
 app.use('/owners', ownersRouter);
 app.use('/users', usersRouter);

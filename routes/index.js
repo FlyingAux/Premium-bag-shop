@@ -24,12 +24,12 @@ router.get('/cart/:pid',async function(req,res,next){
 
     let product = await productModel.find({_id: req.params.pid});
 
-    if(user.cart.indexOf(product._id) !== -1){
-        let index1 = user.cart.indexOf(product._id);
-        user.cart.splice(index1 , 1);
+    if(user.cart.indexOf(product._id) !== 1){
+        user.cart.push(product._id);
     }
     else{
-        user.cart.push(product._id);
+        let indexone = user.cart.indexOf(product._id);
+        user.cart.splice(indexone , 1);
     }
     await user.save();
     res.redirect('/cart');
@@ -38,7 +38,6 @@ router.get('/cart/:pid',async function(req,res,next){
 router.get('/cart',isLoggedIn,async function(req,res,next){
     let decoded = jwt.verify(req.cookies.token,process.env.JWT_KEY);
     let user = await userModel.findOne({email: decoded.email}).select('-password').populate('cart')
-    console.log(user)
     res.render('cart',{user});
 });
 

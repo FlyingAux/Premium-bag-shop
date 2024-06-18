@@ -9,7 +9,12 @@ const ownerSchema = mongoose.Schema({
         default: []
     },
     gstin: String,
-    picture: String
+    picture: String,
+    role: {
+        type: String,
+        enum: 'admin',
+        default: 'admin'
+    }
 })
 
 module.exports = mongoose.model('owner',ownerSchema);
