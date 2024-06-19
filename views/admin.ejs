@@ -2,8 +2,8 @@
     <div class="w-full h-screen flex items-start px-20 py-20">
         <div class="w-[25%] flex h-screen flex-col items-start">
             <div class="flex flex-col">
-                <a class="block w-fit mb-2" href="/owners/allproducts">All Products</a>
-                <a class="block w-fit mb-2" href="/owners/admin">Create new product</a>
+                <a class="block w-fit mb-2" href="/owners/admin">All Products</a>
+                <a class="block w-fit mb-2" href="/owners/createproducts">Create new product</a>
             </div>
         </div>
         <div class="w-[75%] flex flex-col gap-5 h-screen">
@@ -26,7 +26,9 @@
                             <h4>₹ <%= products.price %>
                             </h4>
                         </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="/admin/<%= products._id %>">
+
+                     
+                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
                             <i class="ri-add-line"></i>
                         </a>
                     </div>

@@ -42,7 +42,7 @@ router.get('/',function(req,res,next){
 router.post('/owner-login', async function(req,res){
     let {email ,password} = req.body;
     let user = await ownerModel.findOne({email: email});
-        if(!user) return res.status(401).send('Email or password is incorrect')
+        if(!user) return res.status(401).send('You are not authorized')
             
             bcrypt.compare(password, user.password, function(err,result){
                if(result === true){
@@ -51,33 +51,23 @@ router.post('/owner-login', async function(req,res){
                 res.redirect('/owners/admin');
                }
                else{
-               req.flash('error','Email or password is incorrect');
+               req.flash('error','You are not authorized');
                res.redirect('/owners')
                }
             })
 })
 
-router.get('/admin',isAdmin,function(req,res){
+router.get('/admin',isAdmin,async function(req,res){
     let success = req.flash('success');
-    res.render('createproducts', { success });
+    let product = await productModel.find();
+    res.render('admin', { success, product});
 });
 
-router.get('/allproducts',isAdmin,async function(req,res,next){
-    let product = await productModel.find();
-    res.render('admin',{product})
+
+router.get('/createproducts',function(req,res,next){
+    let success = req.flash('success');
+    res.render('createproducts',{ success });
 })
 
-router.delete('/admin/:del',async function(req,res,next){
-    
-        let decoded = jwt.verify(req.cookies.token,process.env.JWT_KEY);
-        let user = await ownerModel.findOne({email: decoded.email}).select("-password");
-        
-        let product = await productModel.findOneAndDelete({_id: req.params.del});
-        console.log(product)
-        user.products.splice(product._id, 1)
-
-        res.send('post deleted successfullly')
-  
-})
 
 module.exports = router;

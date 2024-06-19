@@ -14,7 +14,6 @@ router.get('/',function(req,res,next){
 router.get('/shop',isLoggedIn,async function(req,res,next){
     let products = await productModel.find()
     res.render('shop',{products});
-    console.log(products)
 })
 
 
@@ -43,6 +42,7 @@ router.get('/cart/:pid',async function(req,res,next){
 router.get('/cart',isLoggedIn,async function(req,res,next){
     let decoded = jwt.verify(req.cookies.token,process.env.JWT_KEY);
     let user = await userModel.findOne({email: decoded.email}).select('-password').populate('cart')
+    console.log(user)
     res.render('cart',{user});
 });
 
