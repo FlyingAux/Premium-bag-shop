@@ -67,19 +67,17 @@ router.get('/allproducts',isAdmin,async function(req,res,next){
     res.render('admin',{product})
 })
 
-router.delete('/owners/allproducts/:delete',async function(req,res,next){
-    try{
+router.delete('/admin/:del',async function(req,res,next){
+    
         let decoded = jwt.verify(req.cookies.token,process.env.JWT_KEY);
         let user = await ownerModel.findOne({email: decoded.email}).select("-password");
         
-        let product = await productModel.findOneAndDelete({_id: req.params.delete});
-        
-        user.products.splice(product._id,1)
+        let product = await productModel.findOneAndDelete({_id: req.params.del});
+        console.log(product)
+        user.products.splice(product._id, 1)
+
         res.send('post deleted successfullly')
-    }
-    catch(err){
-        res.send(err.message);
-    }
+  
 })
 
 module.exports = router;
